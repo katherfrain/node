@@ -1,0 +1,79 @@
+app.use(bodyParser.json);
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(express.static('foldername'))
+
+REST - Representational State Transfer
+    - methods: get() => gets info from server
+    -post() => create new info
+    -put/patch() => update info
+    -delete() => delete
+
+CRUD = Create Read Update Delete
+app.get('/api/route', (req, res) =>{ 
+    res.json(data);
+})
+
+app.post('api/route', (req, res) => {
+   
+    if(!req.body.data || !req.body.otherdata || !req.body.moredata){
+        
+        //unprocessable entity error 
+        res.status(422).json()
+        
+    }
+    const newData = [{
+        data: req.body.data,
+        otherdata: req.body.otherdata,
+        moredata: req.body.moredata
+    }]
+    data.push(newData);
+    res.status(201).json()
+})
+
+app.delete('/api/route/:handle, (req, res) => {
+    const {handle} = req.params;
+
+    const deleteThisIndex =  data.findIndex(element => {
+        if(element.handle == handle){
+            return true
+        }
+        return false
+    })
+    if(deleteThisIndex === -1){
+        res.status(404).json()
+    }
+    data.splice(deleteThisIndex, 1);
+    res.status(204).json();
+
+})
+app.put('/api/route/:handle, (req, res) => {
+    const {handle} = req.params;
+    
+    if(!req.body.data || !req.body.otherdata || !req.body.moredata){
+        
+        //unprocessable entity error 
+        res.status(422).json()
+        
+    }
+    
+    const newData = {
+        data: req.body.data,
+        otherdata: req.body.otherdata,
+        moredata: req.body.moredata
+    }
+    
+    const replaceThisElement = data.findIndex(element => {
+        if(element.handle == handle){
+            return true
+        }
+        return false
+    })
+
+    if(replaceThisElement === -1){
+        res.status(404).json()
+    }
+
+    data.splice(replaceThisElement, 1, newData);
+    res.status(202).json();
+
+})
