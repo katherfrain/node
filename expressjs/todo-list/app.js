@@ -91,7 +91,6 @@ app.delete('api/todos/:id', (req, res) => {
   todoList.splice(deleteThisIndex, 1);
   res.status(204).json();
 })
-// DELETE /api/todos/:id
 
 app.listen(3000, function () {
   console.log('Todo List API is now listening on port 3000...');
